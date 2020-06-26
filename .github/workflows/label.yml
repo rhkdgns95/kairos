@@ -28,9 +28,9 @@ jobs:
           labels: New feature
           assignees: rhkdgns95
           team-reviewers: owners, maintainers
-          milestone: false
+          milestone: 0
           draft: false
-          branch: ${GIT_LOCAL_BRANCH}
+          branch: ${{ github.head_ref }}
           request-to-parent: false
       - name: Check outputs
         run: |

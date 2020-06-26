@@ -21,6 +21,7 @@ const UserLoggedIn = () => (
 interface ReducerState {
   id: string;
   password: string;
+  
 }
 interface ReducerAction {
   name: string;

@@ -3,19 +3,25 @@ import { Button, Form, Input, Space } from "antd";
 import styled from "styled-components";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import DatePicker from "./components/DatePicker";
+import BaseLayout from "./components/BaseLayout";
 
 interface Props {}
 
 const App: React.FC<Props> = () => {
-  const loggedIn = false;
+  const loggedIn = true;
   return loggedIn ? <UserLoggedIn /> : <UserLoggedOut />;
 };
 
-const UserLoggedIn = () => <>loggedIn.</>;
+const UserLoggedIn = () => (
+  <BaseLayout>
+    <div>loggedIn.</div>
+  </BaseLayout>
+);
 
 interface ReducerState {
   id: string;
   password: string;
+  
 }
 interface ReducerAction {
   name: string;

@@ -28,7 +28,7 @@ jobs:
           labels: New feature
           assignees: rhkdgns95
           team-reviewers: owners, maintainers
-          milestone: 0
+          milestone: 1
           draft: false
           branch: ${{ github.head_ref }}
           request-to-parent: false

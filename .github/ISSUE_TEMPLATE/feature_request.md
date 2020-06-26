@@ -10,7 +10,7 @@ assignees: rhkdgns95
 **Level**
 - :red_square:	: 중요도(상)
 - :green_square:  : 중요도(중) (:heavy_check_mark:)
-- :blue_square:  : 중요도(하)
+- :yellow_square:  : 중요도(하)
 
 **Todo**
 - [ ] ....

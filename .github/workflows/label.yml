@@ -14,6 +14,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Add report file
+          project-name: kairos CMS
           committer: KHKIM <rhkdgns9489@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           title: '[PR] Title...'
@@ -26,11 +27,10 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           labels: New feature
           assignees: rhkdgns95
-          reviewers: false
           team-reviewers: owners, maintainers
           milestone: false
           draft: false
-          branch: example-patches
+          branch: ${GIT_LOCAL_BRANCH}
           request-to-parent: false
       - name: Check outputs
         run: |

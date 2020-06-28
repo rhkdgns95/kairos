@@ -15,8 +15,7 @@ jobs:
       - name: Create or Update Project Card
         uses: peter-evans/create-or-update-project-card@v1
         with:
-          author: rhkdgns95 <rhkdgns95@github.com>
+          author: rhkdgns95 <rhkdgns9489@gmail.com@github.com>
           project-name: karios CMS
           column-name: My column
           issue-number: ${{ steps.cpr.outputs.pull-request-number }}
-          assignees: rhkdgns95

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -11,6 +11,7 @@ import { useState, useCallback } from "react";
 import "./index.css";
 import styled from "styled-components";
 import Button from "antd/es/button";
+import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -32,9 +33,10 @@ const BaseLayout: React.FC<any> = ({ children }) => {
           className="logo"
           style={{
             fontSize: "20px",
-            margin: "30px auto",
+            marginTop: useMemo(() => (collapsed ? 30 : 50), [collapsed]),
             textAlign: "center",
             color: "white",
+            transition: ".2s",
           }}
         >
           <span>Kairos CMS</span>
@@ -54,10 +56,10 @@ const BaseLayout: React.FC<any> = ({ children }) => {
               console.log("DATA: ", data);
             }}
           >
-            피드 콘텐츠 관리
+            <Link to="/">피드 콘텐츠 관리</Link>
           </Menu.Item>
           <Menu.Item key={2} icon={<VideoCameraOutlined />}>
-            공지 알림
+            <Link to="notice">공지 알림</Link>
           </Menu.Item>
           <Menu.Item
             onSelect={(data) => {
@@ -66,10 +68,10 @@ const BaseLayout: React.FC<any> = ({ children }) => {
             key={3}
             icon={<UploadOutlined />}
           >
-            관리자 정보수정
+            <Link to="info">관리자 정보수정</Link>
           </Menu.Item>
         </ExtendedMenu>
-        <LogoutButton>로그아웃</LogoutButton>
+        <LogoutButton type="primary">로그아웃</LogoutButton>
       </Sider>
       <Layout
         className="site-layout"
@@ -142,7 +144,7 @@ const Screen = styled.div`
 `;
 const ExtendedMenu = styled(Menu)`
   display: flex;
-  top: 88px;
+  top: 120px;
   flex-flow: column;
   position: absolute;
   bottom: 0;

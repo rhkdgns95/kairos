@@ -16,7 +16,6 @@ jobs:
         uses: peter-evans/create-or-update-project-card@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          author: khkim <rhkdgns95@github.com>
           project-name: karios CMS
           column-name: My column
           issue-number: ${{ steps.cpr.outputs.pull-request-number }}

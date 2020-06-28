@@ -8,7 +8,7 @@ const LoggedIn = React.lazy(() => import("./routes/LoggedIn"));
 interface Props {}
 
 const App: React.FC<Props> = () => {
-  const loggedIn = false;
+  const loggedIn = true;
   return loggedIn ? <UserLoggedIn /> : <UserLoggedOut />;
 };
 

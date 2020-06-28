@@ -18,6 +18,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           project-name: karios CMS
           column-name: My column
-          project-location: https://github.com/rhkdgns95/kairos
-          repository: https://github.com/rhkdgns95/kairos
           issue-number: ${{ steps.cpr.outputs.pull-request-number }}

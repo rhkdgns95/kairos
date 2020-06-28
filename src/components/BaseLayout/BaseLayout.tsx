@@ -10,6 +10,7 @@ import {
 import { useState, useCallback } from "react";
 import "./index.css";
 import styled from "styled-components";
+import Button from "antd/es/button";
 
 const { Header, Sider, Content } = Layout;
 
@@ -38,17 +39,37 @@ const BaseLayout: React.FC<any> = ({ children }) => {
         >
           <span>Kairos CMS</span>
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
+        <ExtendedMenu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          onSelect={(data) => {
+            console.log("DATA: ", data);
+          }}
+        >
+          <Menu.Item
+            key={1}
+            icon={<UserOutlined />}
+            onChange={(data) => {
+              console.log("DATA: ", data);
+            }}
+          >
+            피드 콘텐츠 관리
           </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
+          <Menu.Item key={2} icon={<VideoCameraOutlined />}>
+            공지 알림
           </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
+          <Menu.Item
+            onSelect={(data) => {
+              console.log("DATA: ", data);
+            }}
+            key={3}
+            icon={<UploadOutlined />}
+          >
+            관리자 정보수정
           </Menu.Item>
-        </Menu>
+        </ExtendedMenu>
+        <LogoutButton>로그아웃</LogoutButton>
       </Sider>
       <Layout
         className="site-layout"
@@ -118,6 +139,20 @@ const Screen = styled.div`
     background: #65717b;
     cursor: pointer;
   }
+`;
+const ExtendedMenu = styled(Menu)`
+  display: flex;
+  top: 88px;
+  flex-flow: column;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+const LogoutButton = styled(Button)`
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export default BaseLayout;

@@ -9,6 +9,11 @@
       "dom",
       "esnext.asynciterable"
     ],
+    "paths": {
+      "components/*": [
+        "./src/components/*"
+      ]
+    },
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",

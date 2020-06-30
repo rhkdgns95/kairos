@@ -10,7 +10,7 @@ import {
 import { useState, useCallback } from "react";
 import "./index.css";
 import styled from "styled-components";
-import Button from "antd/es/button";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;

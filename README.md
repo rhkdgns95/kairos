@@ -23,6 +23,9 @@ yarn cleanup  # cache, dist파일 제거.
 yarn dev  # 앱 개발모드 빌드.
 ```
 
+## Libraries
+- [Ant Design](https://ant.design/)
+- [react-lines-ellipsis](https://github.com/xiaody/react-lines-ellipsis#readme)
 
 ## Ref
 - [label.yml](https://github.com/peter-evans/create-pull-request)

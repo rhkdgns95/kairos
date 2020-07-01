@@ -16,4 +16,30 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: inherit;
     color: inherit;
   }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  /* Track - ScrollBar-Track */
+  ::-webkit-scrollbar-track {
+    background: #e6e6e6;
+    border-radius: 10px;
+  }
+
+  /* Handle - ScrollBar-Circle */
+  ::-webkit-scrollbar-thumb {
+    background: #9ea7af;
+    border-radius: 10px;
+    transition: 0.3s;
+    cursor: pointer !important;
+    &:hover {
+      background: #868b90;
+    }
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:active {
+    background: #65717b;
+    cursor: pointer;
+  }
 `;

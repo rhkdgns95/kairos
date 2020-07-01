@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
+  Modal,
   Form,
   Input,
   Button,
@@ -14,7 +15,6 @@ import { EyeOutlined } from "@ant-design/icons";
 import DatePicker from "components/DatePicker";
 
 const { RangePicker } = DatePicker;
-const { Meta } = Card;
 const { Paragraph } = Typography;
 
 interface Props {}
@@ -43,7 +43,14 @@ const cards: Array<CardData> = [
   {
     key: "bcd",
     date: "2020-02-04",
-    text: "eladflafasl asfsllsas safsllas alfasafaflas fsflafslaf asfdalfas",
+    text: `Ant Design, a design language for background applications, is refined
+    by Ant UED Team. Ant Design, a design language for background
+    applications, is refined by Ant UED Team. Ant Design, a design
+    language for background applications, is refined by Ant UED Team. Ant
+    Design, a design language for background applications, is refined by
+    Ant UED Team. Ant Design, a design language for background
+    applications, is refined by Ant UED Team. Ant Design, a design
+    language for background applications, is refined by Ant UED Team.`,
     imgSrc:
       "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
   },
@@ -53,75 +60,128 @@ const onFinish = (values: any) => {
   console.log(values);
 };
 
-const FeedContent: React.FC<Props> = () => (
-  <Container>
-    <Form {...layout} name="nest-messages" onFinish={onFinish}>
-      <ExtendedSpace
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
+const FeedContent: React.FC<Props> = () => {
+  /** 모달 보임 여부 */
+  const [visible, setVisible] = useState<boolean>(false);
+  /** 모달 보임 여부 */
+  const [currentCard, setCurrentCard] = useState<CardData>(cards[0]);
+
+  /** 모달 열기 */
+  const showModal = (card: CardData) => {
+    setCurrentCard(card);
+    setVisible(true);
+  };
+
+  /** 모달 닫기 */
+  const handleOk = (e: any) => {
+    console.log(e);
+    setVisible(false);
+  };
+  /** 모달 닫기2 */
+  const handleCancel = (e: any) => {
+    console.log(e);
+    setVisible(false);
+  };
+
+  return (
+    <Container>
+      <Form {...layout} name="nest-messages" onFinish={onFinish}>
         <ExtendedSpace
           style={{
-            display: "block",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "30px 0",
           }}
         >
-          <Form.Item
+          <ExtendedSpace
             style={{
-              marginBottom: "10px",
-            }}
-            name={"keyword"}
-            label="키워드검색"
-            // rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="rangepicker"
-            label="검색기간"
-            style={{
-              marginBottom: 10,
-              marginRight: 7,
+              display: "block",
             }}
           >
-            <RangePicker format="YYYY-MM-DD" />
-          </Form.Item>
+            <Form.Item
+              style={{
+                marginBottom: "10px",
+              }}
+              name={"keyword"}
+              label="키워드검색"
+              // rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="rangepicker"
+              label="검색기간"
+              style={{
+                marginBottom: 10,
+                marginRight: 7,
+              }}
+            >
+              <RangePicker format="YYYY-MM-DD" />
+            </Form.Item>
+          </ExtendedSpace>
+          <ExtendedSpace>
+            <ExtendedButton bg="#ffc107" type="primary">
+              선택 숨기기
+            </ExtendedButton>
+            <Button type="primary">숨기기 해제</Button>
+            <ExtendedButton bg="#ff5722" type="primary">
+              선택 삭제
+            </ExtendedButton>
+          </ExtendedSpace>
         </ExtendedSpace>
-        <ExtendedSpace>
-          <ExtendedButton bg="#ffc107" type="primary">
-            선택 숨기기
-          </ExtendedButton>
-          <Button type="primary">숨기기 해제</Button>
-          <ExtendedButton bg="#ff5722" type="primary">
-            선택 삭제
-          </ExtendedButton>
-        </ExtendedSpace>
-      </ExtendedSpace>
-      <Form.Item>
-        <Button>검색</Button>
-      </Form.Item>
-    </Form>
-    <Content>
-      {cards.map((card) => (
-        <CardItem
-          key={card.key}
-          date={card.date}
-          text={card.text}
-          imgSrc={card.imgSrc}
-        />
-      ))}
-    </Content>
-  </Container>
-);
+      </Form>
+      <Content>
+        {/* 카드 콘텐츠 시작 */}
+        {cards.map((card) => (
+          <CardItem
+            key={card.key}
+            date={card.date}
+            text={card.text}
+            imgSrc={card.imgSrc}
+            openModal={showModal}
+          />
+        ))}
+        {/* 카드 콘텐츠 종료 */}
+      </Content>
+      {/* 모달 시작 */}
+      <ModalBox>
+        <Modal
+          title={currentCard.date}
+          visible={visible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <ModalImg src={currentCard.imgSrc} />
+          <Paragraph
+            style={{
+              margin: "30px 0",
+              maxHeight: 200,
+              overflowY: "auto",
+            }}
+            ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
+          >
+            {currentCard.text}
+          </Paragraph>
+        </Modal>
+      </ModalBox>
+      {/* 모달 종료 */}
+    </Container>
+  );
+};
 
 interface CardItemProps {
   date: string;
   text: string;
   imgSrc: string;
+  openModal: (data: CardData) => any;
 }
-const CardItem: React.FC<CardItemProps> = ({ date, text, imgSrc }) => (
+const CardItem: React.FC<CardItemProps> = ({
+  date,
+  text,
+  imgSrc,
+  openModal,
+}) => (
   <Card
     extra={
       <FlexBox>
@@ -133,7 +193,16 @@ const CardItem: React.FC<CardItemProps> = ({ date, text, imgSrc }) => (
     cover={<img alt="example" src={imgSrc} />}
     actions={[
       <Tooltip title="자세히 보기">
-        <EyeOutlined />
+        <EyeOutlined
+          onClick={() =>
+            openModal({
+              key: "xxx",
+              date,
+              text,
+              imgSrc,
+            })
+          }
+        />
       </Tooltip>,
     ]}
   >
@@ -189,4 +258,16 @@ const FlexBox = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+const ModalBox = styled.div`
+  /* 모달 버튼 없애기 */
+  .ant-btn {
+    display: none;
+  }
+`;
+const ModalImg = styled.img`
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+`;
+
 export default FeedContent;

@@ -11,12 +11,15 @@ import { useState, useCallback } from "react";
 import "./index.css";
 import styled from "styled-components";
 import { Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
 const BaseLayout: React.FC<any> = ({ children }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const {
+    location: { pathname },
+  } = useHistory();
 
   const toggleCollapsed = useCallback(() => {
     setCollapsed((prevState) => !prevState);
@@ -44,13 +47,13 @@ const BaseLayout: React.FC<any> = ({ children }) => {
         <ExtendedMenu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[pathname]}
           onSelect={(data) => {
             console.log("DATA: ", data);
           }}
         >
           <Menu.Item
-            key={1}
+            key={"/"}
             icon={<UserOutlined />}
             onChange={(data) => {
               console.log("DATA: ", data);
@@ -58,20 +61,22 @@ const BaseLayout: React.FC<any> = ({ children }) => {
           >
             <Link to="/">피드 콘텐츠 관리</Link>
           </Menu.Item>
-          <Menu.Item key={2} icon={<VideoCameraOutlined />}>
+          <Menu.Item key={"/notice"} icon={<VideoCameraOutlined />}>
             <Link to="notice">공지 알림</Link>
           </Menu.Item>
           <Menu.Item
             onSelect={(data) => {
               console.log("DATA: ", data);
             }}
-            key={3}
+            key={"/info"}
             icon={<UploadOutlined />}
           >
             <Link to="info">관리자 정보수정</Link>
           </Menu.Item>
         </ExtendedMenu>
-        <LogoutButton type="primary">로그아웃</LogoutButton>
+        <LogoutButton type="primary" danger>
+          로그아웃
+        </LogoutButton>
       </Sider>
       <Layout
         className="site-layout"

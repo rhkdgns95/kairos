@@ -159,7 +159,8 @@ const FeedContent: React.FC<Props> = () => {
               maxHeight: 200,
               overflowY: "auto",
             }}
-            ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
+            
+            ellipsis={{ rows: 3, expandable: true, symbol: "more",  }}
           >
             {currentCard.text}
           </Paragraph>

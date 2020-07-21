@@ -1,9 +1,8 @@
 import React, { Reducer, useCallback, useReducer } from "react";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input, Space, message } from "antd";
 import styled from "styled-components";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import DatePicker from "../../components/DatePicker";
-
+import { useAppContext } from "../../hooks/useAppContext";
 
 interface Props {}
 
@@ -33,6 +32,7 @@ const initState: ReducerState = {
 };
 
 const LoggedIn: React.FC<Props> = () => {
+  const { login } = useAppContext();
   const [state, dispatch] = useReducer(reducer, initState);
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -43,12 +43,24 @@ const LoggedIn: React.FC<Props> = () => {
       }),
     []
   );
+  const handleLogin = useCallback((data) => {
+    if (data.username === process!.env.USER_ID) {
+      if (data.password === process.env.USER_PASSWORD) {
+        setTimeout(() => {
+          login();
+        }, 1000);
+      } else {
+        message.error("비밀번호가 일치하지 않습니다.");
+      }
+    } else {
+      message.error("존재하지 않는 아이디입니다.");
+    }
+    console.log("DAT: ", data);
+  }, []);
 
-  console.log("state: ", state);
   return (
     <Container>
       <Wrapper>
-        <DatePicker />
         <Space direction="vertical">
           <MainView>
             <>군산 등대어플 관리자페이지</>
@@ -56,20 +68,17 @@ const LoggedIn: React.FC<Props> = () => {
           <Form
             name="normal_login"
             className="login-form"
-            onFinish={(data) => {
-              console.log("submit: ", data);
-            }}
+            onFinish={handleLogin}
           >
             <Form.Item
               name="username"
               style={{
                 marginBottom: "7px",
               }}
-              rules={[
-                { required: true, message: "Please input your Username!" },
-              ]}
+              rules={[{ required: true, message: "아이디를 입력해주세요." }]}
             >
               <Input
+                size="large"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="ID"
                 name="id"
@@ -79,11 +88,10 @@ const LoggedIn: React.FC<Props> = () => {
             </Form.Item>
             <Form.Item
               name="password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
+              rules={[{ required: true, message: "패스워드를 입력해주세요." }]}
             >
               <Input
+                size="large"
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
@@ -106,6 +114,8 @@ const LoggedIn: React.FC<Props> = () => {
             </Form.Item>
             <Form.Item>
               <Button
+                size="large"
+                disabled={state.id.length < 1 || state.password.length < 1}
                 style={{
                   display: "block",
                   width: "100%",
@@ -137,8 +147,12 @@ const MainView = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  width: 200px;
-  height: 200px;
-  background-color: #dfdfdf;
+  width: 230px;
+  height: 230px;
+  background-color: #f6f6f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
+  border-radius: 1px;
+  margin-bottom: 25 px;
+  font-size: 17px;
 `;
 export default LoggedIn;

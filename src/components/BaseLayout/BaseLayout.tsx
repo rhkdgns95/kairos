@@ -12,15 +12,16 @@ import "./index.css";
 import styled from "styled-components";
 import { Button } from "antd";
 import { Link, useHistory } from "react-router-dom";
+import { useAppContext } from "../../hooks/useAppContext";
 
 const { Header, Sider, Content } = Layout;
 
 const BaseLayout: React.FC<any> = ({ children }) => {
+  const { logout } = useAppContext();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const {
     location: { pathname },
   } = useHistory();
-
   const toggleCollapsed = useCallback(() => {
     setCollapsed((prevState) => !prevState);
   }, []);
@@ -35,14 +36,21 @@ const BaseLayout: React.FC<any> = ({ children }) => {
         <div
           className="logo"
           style={{
-            fontSize: "20px",
-            marginTop: useMemo(() => (collapsed ? 30 : 50), [collapsed]),
+            // fontSize: "20px",
+            fontSize: useMemo(() => (collapsed ? "13px" : "20px"), [collapsed]),
+            marginTop: useMemo(() => (collapsed ? 33 : 50), [collapsed]),
             textAlign: "center",
             color: "white",
             transition: ".2s",
           }}
         >
-          <span>Kairos CMS</span>
+          <span>
+            선유도
+            {collapsed && <br />}
+            기도등대
+            {collapsed && <br />}
+            CMS
+          </span>
         </div>
         <ExtendedMenu
           theme="dark"
@@ -74,7 +82,7 @@ const BaseLayout: React.FC<any> = ({ children }) => {
             <Link to="info">관리자 정보수정</Link>
           </Menu.Item>
         </ExtendedMenu>
-        <LogoutButton type="primary" danger>
+        <LogoutButton type="primary" danger onClick={logout}>
           로그아웃
         </LogoutButton>
       </Sider>

@@ -66,30 +66,12 @@ const cards: Array<CardData> = [
 const onFinish = (values: any) => {
   console.log(values);
 };
-const end_point =
-  "https://dfl2ywqyoh.execute-api.ap-northeast-2.amazonaws.com/default/kairosFunction";
+const end_point = process?.env.END_POINT || "";
 
 const FeedContent: React.FC<Props> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>([]);
-  // fetch(end_point, {
-  //   method: "POST",
-  //   mode: "cors",
-  //   cache: "no-cache",
-  //   credentials: "same-origin", // include, *same-origin, omit
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     // 'Content-Type': 'application/x-www-form-urlencoded',
-  //   },
-  //   body: JSON.stringify({ "type": "FEED" }),
-  // })
-  //   .then((item) => {
-  //     console.log("ITEM: ", item);
-  //   })
-  //   .catch((error) => {
-  //     console.log("ERROR: ", error);
-  //   });
-  console.log("DATA: ", data);
+  // console.log("DATA: ", data);
   /** 모달 보임 여부 */
   const [visible, setVisible] = useState<boolean>(false);
   /** 모달 보임 여부 */

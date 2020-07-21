@@ -1,21 +1,21 @@
-name: Create Pull Request
-on:
-  - push
-jobs:
-  createPullRequest:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # - name: Create report file
-      #   run: date +%s > report.txt
-      # - name: Create Pull Request
-      #   id: cpr
-      #   uses: peter-evans/create-pull-request@v2
+# name: Create Pull Request
+# on:
+#   - push
+# jobs:
+#   createPullRequest:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       # - name: Create report file
+#       #   run: date +%s > report.txt
+#       # - name: Create Pull Request
+#       #   id: cpr
+#       #   uses: peter-evans/create-pull-request@v2
 
-      - name: Create or Update Project Card
-        uses: peter-evans/create-or-update-project-card@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          project-name: karios CMS
-          column-name: My column
-          issue-number: ${{ steps.cpr.outputs.pull-request-number }}
+#       - name: Create or Update Project Card
+#         uses: peter-evans/create-or-update-project-card@v1
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           project-name: karios CMS
+#           column-name: My column
+#           issue-number: ${{ steps.cpr.outputs.pull-request-number }}

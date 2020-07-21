@@ -4,6 +4,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
     "antd": "^4.3.5",
+    "axios": "^0.19.2",
     "base-components": "^0.1.12",
     "components": "^0.1.0",
     "dayjs": "^1.8.28",
@@ -24,6 +25,7 @@
   },
   "scripts": {
     "cleanup": "rm -rf .cache dist",
+    "build": "parcel build public/index.html -d build --public-url ./ --log-level 4",
     "dev": "npm run cleanup && parcel -p 3000 public/index.html --open"
   },
   "alias": {

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import {
   Modal,
   Form,
@@ -10,15 +11,21 @@ import {
   Checkbox,
   Typography,
   Tooltip,
+  Skeleton,
+  Result,
 } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import DatePicker from "components/DatePicker";
+import Spinner from "../../components/Spinner";
 
 const { RangePicker } = DatePicker;
 const { Paragraph } = Typography;
 
 interface Props {}
-
+interface FeedData {
+  title_text: string;
+  comment_Name: Array<string>;
+}
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -59,12 +66,59 @@ const cards: Array<CardData> = [
 const onFinish = (values: any) => {
   console.log(values);
 };
+const end_point =
+  "https://dfl2ywqyoh.execute-api.ap-northeast-2.amazonaws.com/default/kairosFunction";
 
 const FeedContent: React.FC<Props> = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<any>([]);
+  // fetch(end_point, {
+  //   method: "POST",
+  //   mode: "cors",
+  //   cache: "no-cache",
+  //   credentials: "same-origin", // include, *same-origin, omit
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     // 'Content-Type': 'application/x-www-form-urlencoded',
+  //   },
+  //   body: JSON.stringify({ "type": "FEED" }),
+  // })
+  //   .then((item) => {
+  //     console.log("ITEM: ", item);
+  //   })
+  //   .catch((error) => {
+  //     console.log("ERROR: ", error);
+  //   });
+  console.log("DATA: ", data);
   /** 모달 보임 여부 */
   const [visible, setVisible] = useState<boolean>(false);
   /** 모달 보임 여부 */
   const [currentCard, setCurrentCard] = useState<CardData>(cards[0]);
+
+  useEffect(() => {
+    (async () => {
+      axios.create({
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const response = await axios.post(end_point, {
+        type: "FEED",
+      });
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+      if (response.status === 200) {
+        if (response.data.errorMessage) {
+          console.log("ERROR Response: ", response);
+        } else {
+          const fetchedData = JSON.parse(response.data.body);
+          setData(fetchedData.Items);
+          console.log("fetchedData: ", fetchedData);
+        }
+      }
+    })();
+  }, []);
 
   /** 모달 열기 */
   const showModal = (card: CardData) => {
@@ -82,9 +136,10 @@ const FeedContent: React.FC<Props> = () => {
     console.log(e);
     setVisible(false);
   };
-
+  console.log("DATA: ", data);
   return (
     <Container>
+      <Spinner loading={loading} />
       <Form {...layout} name="nest-messages" onFinish={onFinish}>
         <ExtendedSpace
           style={{
@@ -132,8 +187,37 @@ const FeedContent: React.FC<Props> = () => {
         </ExtendedSpace>
       </Form>
       <Content>
-        {/* 카드 콘텐츠 시작 */}
-        {cards.map((card) => (
+        {loading && <Skeleton />}
+        {!loading &&
+          (data.length > 0 ? (
+            <>
+              {/* 카드 콘텐츠 시작 */}
+              {data.map((item, key) => (
+                <CardItem
+                  key={key}
+                  date={new Date().toLocaleTimeString()}
+                  text={item.title_text}
+                  // imgSrc={item.image_Name}
+                  imgSrc="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                  openModal={showModal}
+                />
+              ))}
+            </>
+          ) : (
+            <Result
+              style={{
+                marginTop: 50,
+              }}
+              status="warning"
+              title="데이터가 존재하지 않습니다."
+              extra={
+                // <Button type="primary" key="console">
+                //   Go Console
+                // </Button>
+              }
+            />
+          ))}
+        {/* {cards.map((card) => (
           <CardItem
             key={card.key}
             date={card.date}
@@ -141,8 +225,7 @@ const FeedContent: React.FC<Props> = () => {
             imgSrc={card.imgSrc}
             openModal={showModal}
           />
-        ))}
-        {/* 카드 콘텐츠 종료 */}
+        ))} */}
       </Content>
       {/* 모달 시작 */}
       <ModalBox>
@@ -159,8 +242,7 @@ const FeedContent: React.FC<Props> = () => {
               maxHeight: 200,
               overflowY: "auto",
             }}
-            
-            ellipsis={{ rows: 3, expandable: true, symbol: "more",  }}
+            ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
           >
             {currentCard.text}
           </Paragraph>
@@ -190,7 +272,7 @@ const CardItem: React.FC<CardItemProps> = ({
         <div>{date}</div>
       </FlexBox>
     }
-    style={{ width: 300, margin: 5 }}
+    style={{ minWidth: "300px", width: "30%", margin: 5 }}
     cover={<img alt="example" src={imgSrc} />}
     actions={[
       <Tooltip title="자세히 보기">
@@ -240,7 +322,7 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-flow: row wrap;
 `;

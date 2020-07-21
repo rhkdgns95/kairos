@@ -83,7 +83,6 @@ const BaseLayout: React.FC<any> = ({ children }) => {
         style={{
           position: "relative",
           height: "100%",
-          border: "2px solid green",
         }}
       >
         <Header className="site-layout-background" style={{ paddingLeft: 10 }}>
@@ -116,7 +115,6 @@ const Screen = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  border: 1px solid red;
   height: auto;
   overflow-y: scroll;
   padding: 24px;

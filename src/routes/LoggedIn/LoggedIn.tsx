@@ -55,7 +55,7 @@ const LoggedIn: React.FC<Props> = () => {
     } else {
       message.error("존재하지 않는 아이디입니다.");
     }
-    console.log("DAT: ", data);
+    // console.log("DAT: ", data);
   }, []);
 
   return (

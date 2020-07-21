@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Route, BrowserRouter, Redirect, Switch } from "react-router-dom";
 import BaseLayout from "./components/BaseLayout";
 import Loading from "./components/Loading";
+import { useAppContext } from "./hooks/useAppContext";
 
 const FeedContent = React.lazy(() => import("./routes/FeedContent"));
 const Notice = React.lazy(() => import("./routes/Notice"));
@@ -12,8 +13,8 @@ const LoggedIn = React.lazy(() => import("./routes/LoggedIn"));
 interface Props {}
 
 const App: React.FC<Props> = () => {
-  const loggedIn = true;
-  return loggedIn ? <UserLoggedIn /> : <UserLoggedOut />;
+  const { user } = useAppContext();
+  return user ? <UserLoggedIn /> : <UserLoggedOut />;
 };
 
 const UserLoggedIn = () => (

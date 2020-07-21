@@ -37,8 +37,8 @@ const BaseLayout: React.FC<any> = ({ children }) => {
           className="logo"
           style={{
             // fontSize: "20px",
-            fontSize: useMemo(() => (collapsed ? "13px" : "20px"), [collapsed]),
-            marginTop: useMemo(() => (collapsed ? 33 : 50), [collapsed]),
+            fontSize: collapsed ? "13px" : "20px",
+            marginTop: collapsed ? 33 : 50,
             textAlign: "center",
             color: "white",
             transition: ".2s",
@@ -57,7 +57,7 @@ const BaseLayout: React.FC<any> = ({ children }) => {
           mode="inline"
           defaultSelectedKeys={[pathname]}
           onSelect={(data) => {
-            console.log("DATA: ", data);
+            // console.log("DATA: ", data);
           }}
         >
           <Menu.Item
